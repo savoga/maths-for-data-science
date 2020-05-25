@@ -1,0 +1,5 @@
+*.log
+*.aux
+*.synctex.gz
+.ipynb_checkpoints
+__pycache__/
