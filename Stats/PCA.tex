@@ -2,7 +2,7 @@
 
 \vspace{5mm}
 
-The PCA's objective is to get an approximation of a set of points in a \textbf{low} dimensional set. \\
+The PCA's objective is to get an approximation of data in a \textbf{low} dimensional space. \\
 
 \underline{Inertia} \\
 
@@ -30,9 +30,9 @@ $$I_M = Tr(MV)$$
 
 \underline{Projection} \\
 
-In order to represent the set of points in a low dimensional set, we use projections. \\
+In order to represent the data in a low dimensional space, we use projections. \\
 
-The projection should distort the initial set the less as possible, that is:
+The projection should distort the initial space the less as possible, that is:
 
 => reduce the projection distances as much as possible
 
@@ -66,6 +66,42 @@ $~~~~~~~~~~~~~~~~~~= Tr(VMP)$ since $P^2 = P$ \\
 
 Thus the optimisation problem is:
 
-$$max~Ip_M = max~Tr(VMP)$$
+$$\max~Ip_M = \max~Tr(VMP)$$
+
+The objective is to find the line (in black on above figure) going through $g$ and maximizing the inertia. Let $a$ be a point on this line. We have the following equation:
+
+$$P=a(a'Ma)^{-1}a'M$$
+
+(Indeed we have $P^2=P$ and $PM = MP^T$) \\
+
+$Tr(VMP) = Tr(VMa(a'Ma)^{-1}a'M)$ \\ \\
+$~~~~~~~~~~~~~~~= \frac{1}{a'Ma}Tr(VMaa'M)$ \\ \\
+$~~~~~~~~~~~~~~~= \frac{Tr(a'MVMa)}{a'Ma}$ \\ \\
+$~~~~~~~~~~~~~~~= \frac{a'MVMa}{a'Ma}$ since $a'MVMa$ is a scalar \\
+
+In order to obtain the maximum, we use first order optimal conditions:
+
+$$\frac{d}{da}(\frac{a'MVMa}{a'Ma}) = 0$$
+
+With $\frac{d}{da}(\frac{a'MVMa}{a'Ma}) = \frac{(a'Ma)2MVMa-(a'MVMa)2Ma}{(a'Ma)^2}$, previous equation becomes: \\
+
+$MVMa = (\frac{a'MVMa}{a'Ma})Ma$ \\
+
+Since $\frac{a'MVMa}{a'Ma}$ is a scalar, let's replace it by $\lambda$: \\
+
+$$VMa = \lambda a$$ \\
+
+Based on eigenvalue definition, $\lambda$ is thus the eigenvalue of $VM$. \\
+
+We can thus rewrite the optimization problem:
+
+$$\max~Ip_M = \max~Tr(VMP) = \max~\lambda$$
+
+This final result leads to the theorem: \\
+
+\textbf{The lower dimensional space is given by the eigenvectors associated with the biggest eigenvalues.}
+
+
+
 
 \vspace{5mm}
