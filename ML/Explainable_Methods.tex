@@ -1,0 +1,18 @@
+\textbf{Explainability methods}
+
+\textit{Random Forests}
+
+Random Forests consists in constructing several trees and deducing the features that are used to construct the best tree. --> we can thus use it for feature importance method.
+
+\textit{LIME}
+
+Local Interpretable Model-agnostic Explanations
+Main idea: understanding the model by perturbing the input of data samples
+
+Important: Inputs should be in human-readable format (e.g. vector or image)
+
+Ouput: list of explanations
+
+approximation of a model LOCALLY (?) with an interpretable one (e.g. linear model, decision tree)
+
+- interpretable models are trained on small perturbations (= locally!) -> should provide a good local approximation
