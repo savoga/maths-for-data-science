@@ -1,0 +1,5 @@
+Scientific readings:
+- Understanding Machine Learning
+- Saporta
+- "La représentation brownienne du risque : une faute morale collective ?" https://www.cairn.info/revue-finance-et-bien-commun-2008-2-page-137.htm#
+
