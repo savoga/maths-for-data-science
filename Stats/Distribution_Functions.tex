@@ -2,7 +2,7 @@
 
 \vspace{5mm}
 
-Mass function
+\underline{Mass function}
 
 The probability mass function (p.m.f.) is the histogram of the distribution, that is:
 
@@ -12,7 +12,7 @@ The probability mass function (p.m.f.) is the histogram of the distribution, tha
 
 \vspace{5mm}
 
-Density function
+\underline{Density function}
 
 The probability density function (p.d.f.) is the "smooth histogram" of the distribution.
 
@@ -24,7 +24,7 @@ The probability density function (p.d.f.) is the "smooth histogram" of the distr
 
 \vspace{5mm}
 
-Cumulative distribution function
+\underline{Cumulative distribution function}
 
 The cumulative distribution function (c.d.f) is given by $F_X(x)= \mathbb{P}(X < x)$. 
 
@@ -34,5 +34,14 @@ $\widehat{F}_n(x) = \frac{1}{n}\{\text{number of elements} < x\}$
 \begin{center}
 \includegraphics[scale=0.4]{CDF.png}
 \end{center}
+
+\lstset{language=Python}
+\lstset{frame=lines}
+\lstset{caption={Python CDF easy implementation}}
+\lstset{label={lst:code_direct}}
+\lstset{basicstyle=\footnotesize}
+\begin{lstlisting}
+plt.plot(np.sort(data_array), np.linspace(0, 1, len(data_array), endpoint=False))
+\end{lstlisting}
 
 \vspace{5mm}
