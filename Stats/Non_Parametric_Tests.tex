@@ -45,6 +45,29 @@ $
 \right.
 $
 
-We reject the null hypothesis for level $\alpha$ if $D_{n,m} > \frac{1}{\sqrt{n}} \sqrt{-ln(\frac{\alpha}{2}) \frac{1 + \frac{n}{m}}{2}}$.
+We reject the null hypothesis for level $\alpha$ if $D_{n,m} > \frac{1}{\sqrt{n}} \sqrt{-ln(\frac{\alpha}{2}) \frac{1 + \frac{n}{m}}{2}}$. \\
+
+\textit{Scipy} \\
+
+\underline{Test statistic computation}
+
+\lstset{language=Python}
+\lstset{frame=lines}
+\lstset{caption={Kolmogorov-Smirnov test statistic}}
+\lstset{label={lst:code_direct}}
+\lstset{basicstyle=\footnotesize}
+\begin{lstlisting}
+
+cdf1 = np.searchsorted(data1, data_all, side='right') / n1
+cdf2 = np.searchsorted(data2, data_all, side='right') / n2
+cddiffs = cdf1 - cdf2
+T = np.max(cddiffs)
+
+\end{lstlisting}
+
+\underline{Critical probability computation} \\
+
+The critical probability is computed differently depending on sample size. If sample size is small, an exact computation is done. If sample size is large, an asymptotic computation is done.
+In both cases, the critical probability is computed using combinatorics and largely inspired by \href{https://projecteuclid.org/download/pdf_1/euclid.afm/1485893310}{J. L. Hodges, Jr.}.
 
 \vspace{5mm}
