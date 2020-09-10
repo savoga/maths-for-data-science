@@ -71,3 +71,54 @@ The critical probability is computed differently depending on sample size. If sa
 In both cases, the critical probability is computed using combinatorics and largely inspired by \href{https://projecteuclid.org/download/pdf_1/euclid.afm/1485893310}{J. L. Hodges, Jr.}.
 
 \vspace{5mm}
+
+Example 2 \textbf{(Wilcoxon-Mann-Whitney test} or \textbf{Mann-Whitney U test)}: 
+
+\vspace{5mm}
+
+- Test whether two samples follow the same law \\
+
+$
+\left\{
+    \begin{array}{ll}
+        \mathcal{H}_0: \widehat{F}_{1,n}(x) = \widehat{F}_{2,m}(x) \\
+        \mathcal{H}_1: \widehat{F}_{1,n}(x) \neq \widehat{F}_{2,m}(x) \\
+    \end{array}
+\right.
+$
+
+\vspace{5mm}
+
+The test statistic is $U = \Sigma rank_1 - \frac{n_1(n_1+1)}{2}$ where $rank_1$ are the ranks of each element from the first dataset in the second dataset. \\
+
+\underline{Intuition behind the test}
+
+The test is equivalent of ranking all elements from the two datasets; if the resulting dataset is well mixed, the p-value is likely to be high (similar distributions).
+
+The test can also be interpreted as a comparison between the two medians; if they are very different, distributions are likely to be different.
+
+\vspace{5mm}
+
+Example 3 \textbf{(Fisher exact test)}: 
+
+\vspace{5mm}
+
+- Test whether proportions are representative \\
+
+$\mathcal{H}_0: \text{proportions are representive} $ \\
+
+This test is to be used for the analysis of contingency tables.
+
+\begin{center}
+\includegraphics[scale=0.6]{fisher_contingency_table.png}
+\end{center}
+
+Fisher showed that knowing the total numbers (Row Total and Column Total), the probability to have a certain combination follows a \textit{hypergeometric} distribution.
+
+$$p = \frac{C_a^{a+b} C_c^{c+d}}{C_{a+c}^n}$$
+
+The test is said \textit{exact} since there is no asymptotic behavior in the formula. \\
+
+$p < \alpha$ means that, based on total numbers, this specific combination is unlikely to happen.
+
+\vspace{5mm}
