@@ -4,9 +4,27 @@ Gradient Boosting Method is an agorithm that is part of \hyperref[sec:ensemble-m
 
 There are many different implementation of this algorithm; the below one (src: Wikipedia) is one of the most generic and understandable.
 
-\begin{center}
-\includegraphics[scale=0.3]{GBM_algo.png}
-\end{center}
+\vspace{5mm}
+
+1. Initialize model with constant value
+
+$F_0 = \underset{\hat y}{argmin} \Sigma_{i=1}^n \mathcal{L}(y,\hat y)$
+
+2. for $m = 1$ to $M$:
+
+\hspace{1cm} (A) Compute pseudo-residuals:
+
+\hspace{1cm}$res = - \frac{\partial \mathcal{L}}{\partial \hat y}$
+
+\hspace{1cm} (B) Fit a base learner
+
+\hspace{1cm} (C) For $j=1,...,J_m$ compute $\gamma_{jm} = \underset{\gamma}{argmin}~\Sigma_{x_i \in R_{ij}} \mathcal{L}(y_i, F_{m-1}(x_i)+\gamma)$
+
+\hspace{1cm} (D) Update $F_m(x) = F_ {m-1}(x) + \alpha \Sigma_{j=1}^{J_m} \gamma_m I(x \in R_{jm})$
+
+3. Output $F_M(x)$
+
+\vspace{5mm}
 
 \underline{Step 1: initialize model with constant value}
 
@@ -24,7 +42,7 @@ $\frac{\partial MSE}{\partial \hat y} = 0$
 
 \underline{Step 2: loop on the number of estimators} \\
 
-\textit{Pseudo-residuals} \\
+\textit{(A) Pseudo-residuals} \\
 
 $$res = - \frac{\partial \mathcal{L}}{\partial \hat y}$$
 
@@ -34,7 +52,7 @@ Residuals as seen in linear regression are typically written as such: $res = y -
 
 Note: pseudo-residuals are just the derivatives of the loss function; that's why we call it \textbf{gradient} boosting. \\
 
-\textit{Fit a weak learner} \\
+\textit{(B) Fit a weak learner} \\
 
 \lstset{language=Python}
 \lstset{frame=lines}
@@ -47,11 +65,19 @@ h = tree.fit(x, res)
 
 Weak learners (see definition in \hyperref[sec:adaboost]{Adaboost} section) used in gradient boosting are typically decision trees. These learners are trained on residuals. \\
 
-\textit{Compute the gradient step} \\
+\textit{(C) Compute a unique output for each leaf} \\
 
+For $j=1,...,J_m$:
 
+$$\gamma_{jm} = \underset{\gamma}{argmin}~\Sigma_{x_i \in R_{ij}} \mathcal{L}(y_i, F_{m-1}(x_i)+\gamma)$$
 
-\textit{Update the function} \\
+The loop "For $j=1,...,J_m$" means we iterate on all leafs of the previously built tree.
+
+This step consists in building a unique output for each of its leaf. $R_{j,m}$ are the terminal regions, that is, the leafs of the tree.
+
+If we take the MSE as a loss function, $\gamma_jm$ will be equal to the averages of the leaf outputs. \\
+
+\textit{(D) Update the function} \\
 
 \underline{Step 3: Output the function} \\
 
