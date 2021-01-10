@@ -2,7 +2,9 @@
 
 The use of SHAP values is a simple method to measure the impact of features on any model. Intuitively, it consists in adding/removing a feature and measure the impact of the removal on the prediction. Thus, it aims at finding \textit{marginal} contributions of features. 
 
-The concept of SHAP is based on Lloyd Shapley's results on game theory. Shapley's main idea is that members should receive payments proportional to their marginal contributions to the society. The part of game theory is based on \href{https://www.youtube.com/watch?v=qcLZMYPdpH4}{Stanford tutorial}.
+The concept of SHAP is based on Lloyd Shapley's results on game theory. Shapley's main idea is that members should receive payments proportional to their marginal contributions to the society. 
+
+\textit{Note}: the explanation of the game theory part is based on \href{https://www.youtube.com/watch?v=qcLZMYPdpH4}{Stanford tutorial}.
 
 The main question is: what weighting system should we use? \\
 
@@ -24,7 +26,7 @@ Intuitively, dummy players should receive nothing. \\
 
 For instance, we can consider a game that consists in producing fruits during two days. An agent will receive equally the fruits production of day 1 and day 2 than receiving the total production for these two days. \\
 
-Based on the previous aximos, it turns out that there is only one way of defining the payment of each agent:
+Based on the previous axioms, it turns out that there is only one way of defining the payment of each agent:
 
 $$\phi_i(N, v) = \frac{1}{|N|!} \Sigma_{S \subseteq N\setminus \{i\}} |S|! (|N| - |S| - 1)! (v({S \cup \{i\}}) - v(S))$$
 
@@ -46,7 +48,7 @@ Here, the "game" is what produces the outcome of a model. The "agents" or "playe
 
 Let's consider a model that consists in predicting the income of an individual based on the age, the gender and the job.
 
-To define all the possible coalitions, with use the mathematical concept \textit{power set}:
+To define all the possible coalitions, we use the mathematical concept \textit{power set}:
 
 \begin{center}
 \includegraphics[scale=0.35]{powerset_1.png}
@@ -63,6 +65,12 @@ We note that an edge (or an arrow) is the effect of a marginal contribution. \\
 With machine learning notation, the marginal contribution is:
 
 $$MC_{feat 1, \{feat 1, feat 2\}} = Predict_{feat 1, feat 2}(X) - Predict_{feat 2}(X)$$
+
+\textit{Note}: for classification problems that output probabilities, the marginal contribution is the difference in probabilities for each class. The final output of SHAP is split by classes:.
+
+\begin{center}
+\includegraphics[scale=0.30]{shap_classification.png}
+\end{center}
 
 $MC_{feat 1, \{feat 1, feat 2\}}$ should be read: "the effect of feature 1 in coalition \{feat 1, feat 2\}".
 
@@ -85,7 +93,7 @@ But how to find the weights? \\
 
 The weights are based on the number of edges for the specific level of the power set we are looking at. Mathematically, it's the inverse of the function $f*C_f^F$. For example, for the level $f=2$, $\omega_3 = \frac{1}{2*C_2^3} = \frac{1}{6}$. \\
 
-Warning: if feature 1 contributes more to feature 2, it doesn't mean that feature 1 improves more the model than feature 2! As mentioned by the \href{https://github.com/slundberg/shap/issues/367}{author}, "SHAP values of a model's output explain how features impact the output of the model, not if that impact is good or bad".\\
+Warning: if feature 1 contributes more than feature 2, it doesn't mean that feature 1 improves more the model than feature 2! As mentioned by the \href{https://github.com/slundberg/shap/issues/367}{author}, "SHAP values of a model's output explain how features impact the output of the model, not if that impact is good or bad".\\
 
 One of the main limits of SHAP is that it has a lot to compute. \textbf{The cardinality of a power set is $2^n$.} This is thus the number of model to train (with the same parameters and input data) to compute the Shapley value ($n$ = number of features = $F$ in our case). Fortunately, the method used approximation without computing all possible cases. \\
 
