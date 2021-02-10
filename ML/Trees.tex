@@ -136,60 +136,22 @@ The terms $\frac{N_t}{N}$,  $\frac{N_{t,right}}{N_t}$, $\frac{N_{t,left}}{N_t}$ 
 
 $$Feature~Importance~(feat) = FI(node) = \frac{\Sigma_{k \in \text{ nodes with } \textit{feat } \text{as separator}}NI(node~k)}{\Sigma_{k \in \text{ all nodes}}NI(node~k)}$$
 
-Below is an example of computation:
-
-\lstset{language=Python}
-\lstset{frame=lines}
-\lstset{caption={Feature importance in trees}}
-\lstset{label={lst:code_direct}}
-\lstset{basicstyle=\footnotesize}
-\begin{lstlisting}
-import pandas as pd
-import numpy as np
-from sklearn import tree
-import matplotlib.pyplot as plt
-from sklearn.metrics import accuracy_score
-
-data = pd.DataFrame(data=[
-                     [2,7,1],
-                     [2,1,2],
-                     [1,8,2],
-                     [12,2,1],
-                     [12,2,8],
-                     ],
-                    columns=[
-                         'feat1',
-                         'feat2',
-                         'label'
-                         ])
-
-X = data[['feat1','feat2']]
-y = data['label']
-
-clf = tree.DecisionTreeClassifier(max_depth=3)
-clf.fit(X,y)
-fig = plt.figure(figsize=(10,10))
-print(round(accuracy_score(clf.predict(X),y)*100,2))
-tree.plot_tree(clf)
-
-print(clf.feature_importances_)
-ni_0_0 = 0.64-0.5*2/5-0.444*3/5
-print(ni_0_0)
-ni_0_1 = 3/5*(0.444-0.5*2/3)
-print(ni_0_1)
-ni_1 = 2/5*0.5
-print(ni_1)
-
-feat_importance_0 = (ni_0_0 + ni_0_1)/(ni_0_0 + ni_0_1 + ni_1)
-print(feat_importance_0)
-feat_importance_1 = (ni_1)/(ni_0_0 + ni_0_1 + ni_1)
-print(feat_importance_1)
-\end{lstlisting}
-
-The corresponding tree is:
+Example:
 
 \begin{center}
 \includegraphics[scale=0.4]{tree_feat_importance.png}
 \end{center}
+
+$NI_0^{(1)} = \frac{5}{5}(0.64-\frac{2}{5}0.5-\frac{3}{5}*0.444) \approx 0.174$
+
+$NI_0^{(2)} = \frac{3}{5}*(0.444-\frac{2}{3}*0.5-\frac{1}{3}*0) \approx 0.066$
+
+$NI_1 = \frac{2}{5}*(0.5- \frac{1}{2}*0- \frac{1}{2}*0) \approx 0.2$ \\
+
+$FI_0 = \frac{NI_0^{(1)} + NI_0^{(2)}}{NI_0^{(1)} + NI_0^{(2)} + NI_1} \approx 0.545$
+
+$FI_1 = \frac{NI_1}{NI_0^{(1)} + NI_0^{(2)} + NI_1} \approx 0.454$ \\
+
+The full code for this example can be found on my \href{https://github.com/savoga/various_projects/blob/master/trees_feature_importance.py}{Github account}.
 
 \vspace{5mm}
