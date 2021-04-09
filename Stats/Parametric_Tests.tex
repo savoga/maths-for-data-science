@@ -2,7 +2,9 @@
 
 \vspace{5mm}
 
-A test is \textit{parametric} if its goal is to test parameters of a known/unknown distribution.
+A test is \textit{parametric} if its goal is to test parameters of a known/unknown distribution. \\
+
+Note: we call \textit{population} the total data from which a \textit{sample} is extracted. A statistical test aims at finding information about the distribution the sample is extracted from.
 
 \vspace{5mm}
 
@@ -20,7 +22,11 @@ Procedure:
 
 \vspace{5mm}
 
-Example 1 \textbf{(\textbf{Gaussian-test})}: 
+See the \href{https://github.com/savoga/various_projects/blob/master/statistical_testing.ipynb}{associated notebook} for numerical examples.
+
+\vspace{5mm}
+
+Example 1 \textbf{(\textbf{Z-test})}: 
 
 \vspace{5mm}
 
@@ -32,7 +38,13 @@ $X_1,...,X_n~(iid)\sim \mathbb{P_\theta}$
 
 \vspace{5mm}
 
-We want to analyze the mean. $m=a$?
+We want to know the mean of an unknown distribution from which we have a sample. \\
+
+Requirements/assumptions:
+
+- we need the standard deviation of the population \\
+    
+Note: there is no assumption on the unknown distribution law (if the random variable is not Gaussian, we can still use the CLT to have the normality).
 
 \vspace{5mm}
 
@@ -96,18 +108,6 @@ $T$ is the test statistic (\textcolor{red}{a test statistic is a random variable
 \vspace{5mm}
 
 Finally, $\frac{\sqrt{n} (k-a)}{\sqrt{\sigma^2}}=q_\alpha$ => we can find $k$ telling us when rejecting $\mathcal{H}_0$
-
-\vspace{5mm}
-
-\textcolor{gray}{Why not looking at the average directly?}
-
-=> the average can be influenced by the outliers and thus doesn't take into consideration extreme events.
-
-\vspace{5mm}
-
-\textcolor{gray}{How about the median?}
-
-=> the median doesn't take into account the distribution / tendency of the values.
 
 \vspace{5mm}
 
