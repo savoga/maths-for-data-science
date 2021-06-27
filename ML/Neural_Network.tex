@@ -2,9 +2,19 @@
 
 \vspace{5mm}
 
-\underline{Logistic regression with a neural network mindset}
+While counting the layers, we usually don't include the input layer. The first schema (left) is a 1-layer neural network whereas the second schema (right) is a 2-layers neural network. We notice that a 1-layer neural network doesn't have any hidden layer.
 
-Based on the example from coursera (\textit{deeplearning.ai})
+\begin{center}
+\includegraphics[scale=0.09]{nn-layers.jpeg}
+\end{center}
+
+\vspace{5mm}
+
+\underline{1-layer neural network}
+
+\vspace{5mm}
+
+A 1-layer neural network can be seen as a logistic regression. The below explanation is largely inspired by  the example from coursera (\textit{deeplearning.ai})
 
 Let us take the example of an image that we want to classify in a \textbf{binary} way: man/woman
 
@@ -30,7 +40,9 @@ Now since it's a binary classification, we want the $y$ (real value) to be $0$ o
 
 Thus, the loss function is:
 
-$$\mathcal{L}(y, \widehat{y})=-y\log(\widehat{y})+(1-y)\log(1-\widehat{y})$$
+$$\mathcal{L}(y, \widehat{y})=-[y\log(\widehat{y})+(1-y)\log(1-\widehat{y})]$$
+
+We notice that the loss function increases when $y \neq \widehat y$.
 
 \vspace{5mm}
 
@@ -40,9 +52,9 @@ $$J(\omega, b)=\frac{1}{m}\Sigma_{i=1}^m\mathcal{L}(\widehat{y}^{(i)}, y^i)$$
 
 \vspace{5mm}
 
-\underline{Forward propagation}
+\textit{Forward propagation}
 
-$$x_1,x_2, \omega_1,\omega_p,b \to z=\omega_1x_1 + \omega_2x_2 + b \to \widehat{y}=a=\sigma(z) \to \mathcal{L}(a,y)$$
+$$x_1,x_2, \omega_1,\omega_2,b \to z=\omega_1x_1 + \omega_2x_2 + b \to \widehat{y}=a=\sigma(z) \to \mathcal{L}(a,y)$$
 
 - First arrow: regression
 
@@ -52,15 +64,37 @@ $$x_1,x_2, \omega_1,\omega_p,b \to z=\omega_1x_1 + \omega_2x_2 + b \to \widehat{
 
 \vspace{5mm}
 
-\underline{Backward propagation}
+\textit{Backward propagation}
+
+\vspace{5mm}
 
 The idea is: with the error computed on the last step, we go backward in order to correct the parameters $\omega$ and $b$.
 
-$$x_1,x_2, \omega_1,\omega_p,b \leftarrow z=\omega_1x_1 + \omega_2x_2 + b \leftarrow \widehat{y}=a=\sigma(z) \leftarrow \mathcal{L}(a,y)$$
+$$x_1,x_2, \omega_1,\omega_2,b \leftarrow z=\omega_1x_1 + \omega_2x_2 + b \leftarrow \widehat{y}=a=\sigma(z) \leftarrow \mathcal{L}(a,y)$$
 
-To find the new value of $\omega_1$ we look for its change ($d \omega_1$) that we can obtain thanks to the \textbf{Chain rule}. It consists of decomposing the derivative into successive ones:
+To find the new value of $\omega$ we look for its change ($d \omega$) that we can obtain thanks to the \textbf{Chain rule}. It consists of decomposing the derivative into successive ones.
 
-$\frac{d\mathcal{L}}{d\omega_1}="d\omega_1"=\frac{d\mathcal{L}}{da}\frac{da}{dz}\frac{dz}{d\omega_1}=...=(a-y)x_1=dzx_1$ (details on the derivatives can be found \href{https://www.youtube.com/watch?v=z_xiwjEdAC4}{here} and \href{https://www.youtube.com/watch?v=yXcQ4B-YSjQ}{here}). \\
+The parameters that are udpated during the training are the weights $\omega$ and the bias $b$. Thus we need to compute $\frac{d\mathcal{L}}{d\omega}="d\omega"$ and $\frac{d\mathcal{L}}{db}="db"$ . \\
+
+First the weights:
+
+$$d\omega=\frac{d\mathcal{L}}{da}\frac{da}{dz}\frac{dz}{d\omega}$$
+
+$$\text{where:}$$
+
+$$\frac{d\mathcal{L}}{da} = (\frac{d\mathcal{L}(a,y)}{da}) = -y \frac{1}{a} - (1-y) \frac{-1}{1-a} = \frac{1-y}{1-a} - \frac{y}{a} = \frac{(a-ay-y+ay)}{a(1-a)} = \frac{a-y}{a(1-a)}$$
+
+$$\frac{da}{dz} = \frac{d \sigma(z)}{dz} = \frac{-(-1)e^{-z}}{(1+e^{-z})^2} = \frac{e^{-z}}{1+e^{-z}} \frac{1}{1+e^{-z}}= (1-\sigma(z))\sigma(z) = (1-a)a~~~~\text{Reminder: } \sigma(z) = \frac{1}{1+e^{-z}}$$
+
+$$\frac{dz}{d\omega} = x$$
+
+$$\text{Thus:}$$
+
+$$\frac{d\mathcal{L}}{d\omega} = \frac{a-y}{a(1-a)}(1-a)ax = (a-y)x$$
+
+Then the bias:
+
+$$...$$
 
 \textit{Note}: we can see that the updated weight depends on the previous prevision $a$. This is why it is necessary to recompute the predicted value at each iteration.
 
